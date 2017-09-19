@@ -1,0 +1,59 @@
+==============================================================================
+  system_backup_unix
+  バックアップ先デバイスの初期設定(参考手順)
+
+  Copyright (c) 2006-2017 Yukio Shiiya
+
+  This software is released under the MIT License.
+  https://opensource.org/licenses/MIT
+==============================================================================
+
+------------------------------------------------------------------------------
+・必要に応じて、バックアップ先デバイス内のパーティションの設定を事前に実施してください。
+  (各パーティションのフォーマットは以下の手順内で実施します。)
+
+■rootユーザでログイン
+
+■変数定義
+. /usr/local/etc/system_backup/env.sh
+cat /proc/partitions
+BKUP_DEV=デバイスファイル名(例：/dev/sdb)
+BKUP_DEV_TYPE=デバイスタイプ(例：sat)
+
+■バックアップ先デバイスのS.M.A.R.T.情報の確認
+smartctl ${BKUP_DEV} -d ${BKUP_DEV_TYPE} -a
+  →出力内容を確認
+
+■デバイスのフォーマット・チェック
+mke2fs -t ${BKUP_DEV_FS_1} -L BKUP -m 1 ${BKUP_DEV_1}
+fsck -t ${BKUP_DEV_FS_1} -f -a -v -C    ${BKUP_DEV_1}
+
+■デバイスのマウント
+system_backup_dev_mount.sh
+mount
+
+■ディレクトリの作成・アクセス権の設定
+for i in \
+${BKUP_MNT_1}/LOG \
+${BKUP_MNT_1}/DAT \
+;do
+  install -d -m 0775 -o root -g root ${i}
+  ls -ald                            ${i}
+done
+
+for i in バックアップ対象ホスト名 ... ; do
+  echo
+  install -d -m 0770 -o root -g root ${BKUP_MNT_1}/LOG/${i}
+  ls -ald                            ${BKUP_MNT_1}/LOG/${i}
+done
+
+for i in バックアップ対象ホスト名 ... ; do
+  echo
+  install -d -m 0770 -o root -g root ${BKUP_MNT_1}/DAT/${i}
+  ls -ald                            ${BKUP_MNT_1}/DAT/${i}
+done
+
+■デバイスのマウント解除
+system_backup_dev_umount.sh
+mount
+

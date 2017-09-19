@@ -1,0 +1,20 @@
+###
+### ソースリスト
+###
+
+/boot/
+
+/SNAP/etc/
+
+/SNAP/home/
+
+/SNAP/root/
+
+/SNAP/usr/local/
+
+/SNAP/var/local/
+/SNAP/var/lib/
+/SNAP/var/log/
+/SNAP/var/mail/
+/SNAP/var/spool/
+

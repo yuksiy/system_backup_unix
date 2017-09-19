@@ -1,0 +1,53 @@
+==============================================================================
+  system_backup_unix
+  バックアップ先デバイスの交換方法(参考手順)
+
+  Copyright (c) 2006-2017 Yukio Shiiya
+
+  This software is released under the MIT License.
+  https://opensource.org/licenses/MIT
+==============================================================================
+
+------------------------------------------------------------------------------
+■rootユーザでログイン
+
+■変数定義
+. /usr/local/etc/system_backup/env.sh
+
+■(MOUNT_AUTOが「FALSE」、かつMOUNT_TYPEが「local」の場合)
+・バックアップ先デバイスのマウント
+system_backup_dev_mount.sh
+
+■ログファイルの確認
+view ${LOG_ROOT}/*/${CHECK_LOG}
+view ${LOG_ROOT}/*/${MAIN_LOG}
+
+■(MOUNT_AUTOが「FALSE」、かつMOUNT_TYPEが「local」の場合)
+・バックアップ先デバイスのマウント解除
+system_backup_dev_umount.sh
+
+■(CHECK_AUTOが「FALSE」、かつMOUNT_TYPEが「local」の場合)
+・バックアップ先デバイスのチェック
+system_backup_dev_check.sh
+
+・DEV_CHECK_LOGの生成・表示
+system_backup_dev_check_log_check.sh
+
+■バックアップ先デバイスのS.M.A.R.T.情報の確認
+cat /proc/partitions
+smartctl デバイスファイル名(例：/dev/sdb) -d デバイスタイプ(例：sat) -a
+  →出力内容を確認
+
+■バックアップ先デバイスの交換
+
+■(MOUNT_AUTOが「FALSE」、かつMOUNT_TYPEが「local」の場合)
+・バックアップ先デバイスのマウント
+system_backup_dev_mount.sh
+
+■前回のログファイルの全削除
+system_backup_log_del.sh
+
+■(MOUNT_AUTOが「FALSE」、かつMOUNT_TYPEが「local」の場合)
+・バックアップ先デバイスのマウント解除
+system_backup_dev_umount.sh
+

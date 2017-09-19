@@ -1,0 +1,8 @@
+###
+### スナップショットリスト
+###
+
+#src_lv_path	dest_pv_path	snap_lv_path	snap_le_number	snap_chunksize	snap_permission	mnt_dir	mnt_opt	備考 (無視される)
+
+/dev/mapper/vg00-lvol1	/dev/sda2	/dev/mapper/vg00-snap1	論理エクステント数	128k	r	/SNAP	-t ext4 -o defaults,noatime,acl
+
